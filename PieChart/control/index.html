@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>charts</title>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<script type="text/javascript" src="./js/webcc.min.js"></script>
+	<script type="text/javascript" src="./js/echarts.min.js"></script>
+</head>
+
+<body>
+	<div id="DIV1">
+	</div>
+	
+	<script type="text/javascript">
+
+		const Chart = function(){
+			let 
+				_chart = echarts.init(document.getElementById("DIV1")),
+
+				_toColor = function(num){
+					num >>>= 0;
+					let 
+						b = num & 0xFF,
+						g = (num & 0xFF00) >>> 8,
+						r = (num & 0xFF0000) >>> 16,
+						a = ((num & 0xFF000000) >>> 24) / 255;
+					return "rgba(" + [r,g,b,a].join(",") + ")";
+				},
+
+				_initialize = function(){
+					const option = {
+						title: {
+						},
+						legend: {
+						},			    
+					    toolbox: {
+					        feature: {
+					        	dataView:{},
+					            saveAsImage:{}
+					        }
+				    	},
+				    	tooltip: {},
+					    dataset: {},
+					    series: [],
+					};
+					_chart.setOption(option);
+					window.addEventListener("resize",function(){ _chart.resize() });
+				},
+
+				_bgColorHandler = function(value){
+					document.body.style.backgroundColor = _toColor(value);
+				},
+
+				_titleHandler = function(value){
+					value.textStyle = {
+						color: _toColor(value.textStyle_color),
+						fontSize: value.textStyle_fontSize
+					};
+					delete value.textStyle_color;delete value.textStyle_fontSize;
+					const option = {title:value};
+					_chart.setOption(option);
+				},
+
+				_legendHandler = function(value){
+					const option = {legend:value};
+					_chart.setOption(option);
+				},
+
+				_toolboxHandler = function(value){
+					const option = {toolbox:value}
+					_chart.setOption(option);
+				},
+
+				_dataset_srcHandler = function(value){
+					// let raw_str = JSON.stringify(value);
+					// let str = raw_str.replace(/\"{1}D{1}\d{1}\"{1}\:{1}/g,"").replace(/\{/g,"[").replace(/\}/g,"]");
+					// value = JSON.parse(str);
+					const option = {dataset:{source:value}}
+					_chart.setOption(option);			
+				},
+
+				_seriesHandler = function(value){
+					for(obj in value){					
+						value[obj].center = [ value[obj].center_x , value[obj].center_y ];
+						value[obj].encode = { itemName:value[obj].encode_itemName , value:value[obj].encode_value };
+						delete value[obj].center_x ; delete value[obj].center_y;
+						delete value[obj].encode_itemName ; delete value[obj].encode_value;
+					}
+					const option = {series:value};
+					_chart.setOption(option);					
+				};
+
+				function _setProperty(props){
+					switch(props.key){
+						case "bgcolor": _bgColorHandler(props.value);break;
+						case "title": _titleHandler(props.value);break;
+						case "legend": _legendHandler(props.value);break;
+						case "toolbox": _toolboxHandler(props.value);break;
+						case "dataset_src": _dataset_srcHandler(props.value);break;
+						case "series": _seriesHandler(props.value);break;
+					}
+				}
+
+			return {
+				chart:_chart,
+				initialize:_initialize,
+				setProperty:_setProperty
+			};
+		}();	  
+
+		let callback = function(result){
+			if (result == false){	//
+				console.log("webcc-connection failed");
+				return;
+			}
+			Chart.initialize();
+			Chart.chart.showLoading();
+			Chart.setProperty({key : "bgcolor" , value : WebCC.Properties.bgcolor});
+			Chart.setProperty({key : "title" , value : WebCC.Properties.title});
+			Chart.setProperty({key : "legend" , value : WebCC.Properties.legend});
+			Chart.setProperty({key : "toolbox" , value : WebCC.Properties.toolbox});
+			Chart.setProperty({key : "dataset_src" , value : WebCC.Properties.dataset_src});
+			Chart.setProperty({key : "series" , value : WebCC.Properties.series});
+			WebCC.onPropertyChanged.subscribe(Chart.setProperty);		
+			Chart.chart.hideLoading();
+			console.log("success");		
+		};
+		let contracts = {
+			methods : {},
+			events : [],
+			properties : {
+				bgcolor:4294967295,
+				title:{},
+				legend:{},
+				toolbox:{},
+				dataset_src:[{}],
+				series:[{}]
+			}
+		};
+		let extensions = [];
+		WebCC.start(callback, contracts, extensions, 10000);
+    </script>
+</body>
+</html>
