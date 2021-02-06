@@ -1,0 +1,221 @@
+{
+	"mver": "1.2.0",
+	"control": {
+		"identity": {
+			"name": "LineChart",
+			"version": "1.0",
+			"displayname": "LineChart",
+			"icon": "./logo.png",
+			"start": "./control/index.html",
+			"type": "guid://E6ED9935-D76A-4F2F-A20E-68CE0328F598"		
+		},
+		"metadata": {
+			"author": "troyards",
+			"keywords": [
+				"LineChart",
+				"Line"
+			]
+		},
+		"contracts": {
+			"api": {
+				"methods": {},
+				"events": {},
+				"properties": {
+					"bgcolor":{
+						"$ref":"#/control/types/bgcolor"
+					},
+					"title": {
+					   "$ref":"#/control/types/title"
+					},	
+					"legend":{
+						"$ref":"#/control/types/legend"
+					},
+					"toolbox": {
+						"$ref":"#/control/types/toolbox"
+					},
+					"xAxis":{
+						"$ref":"#/control/types/xAxis"
+					},
+					"yAxis":{
+						"$ref":"#/control/types/yAxis"	
+					},
+					"tooltip": {
+						"$ref":"#/control/types/tooltip"	
+					},
+					"dataset_src":{
+						"type":"array",
+						"items":{
+							"$ref":"#/control/types/dataset_src_items"
+						}
+					},
+					"series":{
+						"type":"array",
+						"items":{
+							"$ref":"#/control/types/series-items"
+						}
+					}
+				}
+			}
+		},
+		"types": {
+			"bgcolor":{
+				"$ref":"#/control/types/color",
+				"default":4294967295
+			},
+			"title": {
+				"type": "object",
+				"properties": {
+					"show": {
+						"type": "boolean",
+						"default": true
+					},
+					"textStyle_color":{
+						"$ref":"#/control/types/color",
+						"default":4278190080
+					},
+					"textStyle_fontSize":{
+						"type":"number",
+						"default":12					
+					},
+					"text": {
+						"type": "string",
+						"default": ""
+					},
+					"left":{
+						"type":"string",
+						"default":"center"
+					},
+					"top":{
+						"type":"string",
+						"default":"top"
+					}
+				}
+			},
+				"color": {
+					"$id": "http://tia.siemens.com/wincc-unified/types/s/color",
+					"type": "number"
+				},
+
+			"legend":{
+				"type": "object",
+				"properties": {
+					"orient":{
+						"$ref": "#/control/types/orient"
+					},
+					"left":{
+						"type":"string",
+						"default":"left"
+					},
+					"top":{
+						"type":"string",
+						"default":"top"
+					}					
+				}
+			},
+
+			
+			"toolbox": {
+				"type": "object",
+				"properties": {
+					"show": {
+						"type": "boolean",
+						"default": true
+					},
+					"itemSize": {
+						"type": "number",
+						"default": 10
+					},
+					"orient": {
+						"$ref": "#/control/types/orient"
+					},
+					"left":{
+						"type":"string",
+						"default":"right"
+					},
+					"top":{
+						"type":"string",
+						"default":"top"
+					}	
+				}
+			},
+				"orient": {
+					"type": "string",
+					"enum": ["vertical", "horizontal"],
+					"default": "vertical"
+				},
+
+			"xAxis":{
+				"type":"object",
+				"properties":{
+					"type":{
+						"$ref":"#/control/types/Axis-type"
+					}
+				}
+			},
+			"yAxis":{
+				"type":"object",
+				"properties":{
+					"type":{
+						"$ref":"#/control/types/Axis-type"
+					}
+				}
+			},
+				"Axis-type":{
+					"type":"string",
+					"enum":["value","category","time"],
+					"default":"value"
+				},
+
+			"tooltip": {
+				"type": "object",
+				"properties": {
+					"trigger": {
+						"$ref": "#/control/types/trigger"
+					}
+				}
+			},
+				"trigger": {
+					"type": "string",
+					"enum": ["axis", "item", "none"],
+					"default": "item"
+				},
+
+			"dataset_src_items":{
+				"type":"object",
+				"properties":{
+					"D1":{"type":"string","default":"1"},
+					"D2":{"type":"string","default":"1"},
+					"D3":{"type":"string","default":"1"},
+					"D4":{"type":"string","default":"1"},
+					"D5":{"type":"string","default":"1"},
+					"D6":{"type":"string","default":"1"},
+					"D7":{"type":"string","default":"1"},
+					"D8":{"type":"string","default":"1"}
+				}
+			},
+
+			"series-items":{
+				"type":"object",
+				"properties":{
+					"type":{"type":"string","default":"line"},
+					"name":{"type":"string","default":"series1"},
+					"step":{"type":"string","enum":["false","start","middle","end"],"default":"false"},
+					"smooth":{"type":"boolean","default":true},
+					"showSymbol":{"type":"boolean","default":true},
+					"symbolSize":{"type":"number","default":10},
+					"encode_x":{"type":"string","default":"D1"},
+					"encode_y":{"type":"string","default":"D2"},
+					"lineStyle_width":{"type":"number","default":3},
+					"lineStyle_type":{
+						"$ref":"#/control/types/lineType"
+					}
+				}
+			},
+				"lineType":{
+					"type":"string",
+					"enum":["solid","dashed","dotted"],
+					"default":"solid"
+				}	
+		}
+	}
+}
