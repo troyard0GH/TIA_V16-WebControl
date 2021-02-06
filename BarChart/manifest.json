@@ -1,0 +1,178 @@
+{
+	"mver": "1.2.0",
+	"control": {
+		"identity": {
+			"name": "BarChart",
+			"version": "1.0",
+			"displayname": "BarChart",
+			"icon": "./logo.jpg",
+			"start": "./control/index.html",
+			"type": "guid://90C28430-E987-49EC-B922-33DEFEFB1956"		
+		},
+		"metadata": {
+			"author": "troyards",
+			"keywords": [
+				"BarChart",
+				"Bar"
+			]
+		},
+		"contracts": {
+			"api": {
+				"methods": {},
+				"events": {},
+				"properties": {
+					"bgcolor":{
+						"$ref":"#/control/types/bgcolor"
+					},
+					"title": {
+						"$ref":"#/control/types/title"
+					},	
+					"legend":{
+						"$ref":"#/control/types/legend"
+					},
+					"toolbox": {
+						"$ref":"#/control/types/toolbox"
+					},
+					"tooltip": {
+						"$ref":"#/control/types/tooltip"	
+					},
+					"dataset_src":{
+						"type":"array",
+						"items":{
+							"$ref":"#/control/types/dataset_src_items"
+						}
+					},
+					"series":{
+						"type":"array",
+						"items":{
+							"$ref":"#/control/types/series-items"
+						}
+					}
+				}
+			}
+		},
+		"types": {
+			"bgcolor":{
+				"$ref":"#/control/types/color",
+				"default":4294967295
+			},
+			"title": {
+				"type": "object",
+				"properties": {
+					"show": {
+						"type": "boolean",
+						"default": true
+					},
+					"textStyle_color":{
+						"$ref":"#/control/types/color",
+						"default":4278190080
+					},
+					"textStyle_fontSize":{
+						"type":"number",
+						"default":12					
+					},
+					"text": {
+						"type": "string",
+						"default": ""
+					},
+					"left":{
+						"type":"string",
+						"default":"center"
+					},
+					"top":{
+						"type":"string",
+						"default":"top"
+					}
+				}
+			},
+				"color": {
+					"$id": "http://tia.siemens.com/wincc-unified/types/s/color",
+					"type": "number"
+				},
+			"legend":{
+				"type": "object",
+				"properties": {
+					"orient":{
+						"$ref": "#/control/types/orient"
+					},
+					"left":{
+						"type":"string",
+						"default":"left"
+					},
+					"top":{
+						"type":"string",
+						"default":"top"
+					}					
+				}
+			},
+		
+			"toolbox": {
+				"type": "object",
+				"properties": {
+					"show": {
+						"type": "boolean",
+						"default": true
+					},
+					"itemSize": {
+						"type": "number",
+						"default": 10
+					},
+					"orient": {
+						"$ref": "#/control/types/orient"
+					},
+					"left":{
+						"type":"string",
+						"default":"right"
+					},
+					"top":{
+						"type":"string",
+						"default":"top"
+					}	
+				}
+			},
+				"orient": {
+					"type": "string",
+					"enum": ["vertical", "horizontal"],
+					"default": "vertical"
+				},
+
+			"tooltip": {
+				"type": "object",
+				"properties": {
+					"trigger": {
+						"$ref": "#/control/types/trigger"
+					}
+				}
+			},
+				"trigger": {
+					"type": "string",
+					"enum": ["axis", "item", "none"],
+					"default": "axis"
+				},
+
+			"dataset_src_items":{
+				"type":"object",
+				"properties":{
+					"D1":{"type":"string","default":"category"},
+					"D2":{"type":"string","default":"1"},
+					"D3":{"type":"string","default":"1"},
+					"D4":{"type":"string","default":"1"},
+					"D5":{"type":"string","default":"1"},
+					"D6":{"type":"string","default":"1"},
+					"D7":{"type":"string","default":"1"},
+					"D8":{"type":"string","default":"1"}
+				}
+			},
+
+			"series-items":{
+				"type":"object",
+				"properties":{
+					"type":{"type":"string","default":"bar"},
+					"name":{"type":"string","default":"series1"},
+					"encode_x":{"type":"string","default":"D1"},
+					"encode_y":{"type":"string","default":"D2"}
+				}
+			}	
+		}
+	}
+}
